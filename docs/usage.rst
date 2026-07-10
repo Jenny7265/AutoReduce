@@ -2,14 +2,16 @@ Usage
 =====
 
 Basic Usage
-----------
+-----------
 
 Here's a simple example of how to use autoReduce:
 
 .. code-block:: python
 
-    from autoreduce import System
-    from autoreduce.utils import get_reducible
+    from sympy import Symbol
+
+    from autoreduce.system.system import System
+    from autoreduce.utils.reduction import get_reducible
 
     # Create a system
     x = [Symbol('x1'), Symbol('x2')]
@@ -20,6 +22,8 @@ Here's a simple example of how to use autoReduce:
     reducible_system = get_reducible(system)
 
     # Get reduced model
-    reduced_system, collapsed_system = reducible_system.solve_timescale_separation([x[0]])
+    reduced_system, collapsed_system = reducible_system.solve_timescale_separation(
+        [x[0]]
+    )
 
 For more examples, see the :doc:`examples` section.

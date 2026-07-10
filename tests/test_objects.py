@@ -1,69 +1,42 @@
 import numpy as np  # type: ignore
 
-from autoreduce import load_ODE_model
-from autoreduce import System
-from autoreduce.ode import ODE
-from autoreduce.local_sensitivity import SSM
+from autoreduce.solvers.ode import ODE
+from autoreduce.solvers.ssm import SSM
+from autoreduce.system.system import System
+from autoreduce.utils.converters import load_ODE_model
 
 
-# ## System object attributes
+def test_solver_objects_from_symbolic_model():
+    """Build ODE and SSM solver objects from a symbolic system."""
+    x, f, params = load_ODE_model(2, 2)
+    f[0] = -(x[0] ** 2) + params[0] * x[1]
+    f[1] = -params[1] * x[1]
+    output_matrix = np.array([[0, 1]]).tolist()
+    system = System(x, f, params=params, C=output_matrix)
 
+    timepoints = np.linspace(0, 4, 3)
+    params_values = [2, 4]
+    x_init = [0, 10]
 
-# Create symbolic objects
-x, f, P = load_ODE_model(2, 2)
-f[0] = -x[0] ** 2 + P[0] * x[1]
-f[1] = -P[1] * x[1]
-print("The states : {0}".format(x))
-print("The dynamics f : {0}".format(f))
-print("The dynamics P : {0}".format(P))
-C = np.array([[0, 1]]).tolist()
+    ode_solver = ODE(
+        system.x,
+        system.f,
+        params=system.params,
+        params_values=params_values,
+        C=system.C,
+        x_init=x_init,
+        timepoints=timepoints,
+    )
+    ssm_solver = SSM(
+        system.x,
+        system.f,
+        params=system.params,
+        params_values=params_values,
+        C=system.C,
+        x_init=x_init,
+        timepoints=timepoints,
+    )
 
-
-# System class
-sys = System(x, f, params=P, C=C)
-
-
-# ## Solve the System using the ODE subclass
-
-
-# Solve ODE from System
-
-timepoints = np.linspace(0, 20, 100)
-sys.params_values = [2, 4]
-sys.x_init = [0, 10]
-sys_ode = ODE(
-    sys.x,
-    sys.f,
-    params=sys.params,
-    params_values=sys.params_values,
-    C=sys.C,
-    x_init=sys.x_init,
-    timepoints=timepoints,
-)
-solution = sys_ode.solve_system()
-
-
-# ## Local sensitivity analysis tools for System using the SSM subclass
-
-
-# Solve for sensitivity analysis from System
-
-timepoints = np.linspace(0, 20, 10)
-sys.params_values = [2, 4]
-sys.x_init = [0, 10]
-sys_ssm = SSM(
-    sys.x,
-    sys.f,
-    params=sys.params,
-    params_values=sys.params_values,
-    C=sys.C,
-    x_init=sys.x_init,
-    timepoints=timepoints,
-)
-solution = sys_ssm.compute_SSM()
-
-J = sys_ssm.compute_J([2, 1])
-Z = sys_ssm.compute_Zj([2, 1], 1)
-print("J = ", J)
-print("Z = ", Z)
-print("SSM = ", solution)
+    assert isinstance(ode_solver.solve_system(), np.ndarray)
+    assert isinstance(ssm_solver.compute_J([2, 1]), np.ndarray)
+    assert isinstance(ssm_solver.compute_Zj([2, 1], 1), np.ndarray)

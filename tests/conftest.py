@@ -1,11 +1,12 @@
-from sympy import Symbol  # type: ignore
-import numpy as np  # type: ignore
-import pytest  # type: ignore
 from pathlib import Path
 
-from autoreduce.system import System
-from autoreduce.utils import get_reducible
-from autoreduce.converters import load_sbml
+import numpy as np  # type: ignore
+import pytest  # type: ignore
+from sympy import Symbol  # type: ignore
+
+from autoreduce.system.system import System
+from autoreduce.utils.converters import load_sbml
+from autoreduce.utils.reduction import get_reducible
 
 
 @pytest.fixture

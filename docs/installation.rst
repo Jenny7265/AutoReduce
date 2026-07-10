@@ -4,20 +4,23 @@ Installation
 Requirements
 ------------
 
-AutoReduce requires Python 3.9 or higher and the following dependencies:
+AutoReduce requires Python 3.9 through 3.12 and the following dependencies:
 
 * python-libsbml
 * sympy
 * scipy
-* numpy
+* numpy<2
 
 Optional dependencies (for visualization and advanced features):
 
 * matplotlib
 * seaborn
+* biocrnpyler, for BioCRNpyler model construction workflows
+* control, for python-control `NonlinearIOSystem` adapters
+* pydmd, for DMD and DMDc projection workflows
 
 Basic Installation
------------------
+------------------
 
 You can install AutoReduce using pip:
 
@@ -29,25 +32,32 @@ Or install from source:
 
 .. code-block:: bash
 
-    git clone https://github.com/yourusername/autoreduce.git
-    cd autoreduce
+    git clone https://github.com/ayush9pandey/AutoReduce.git
+    cd AutoReduce
     pip install .
 
 Development Installation
------------------------
+------------------------
 
-For development, you can install the package in editable mode with all optional dependencies:
+For development, install the package in editable mode with the dependencies
+needed for the task:
 
 .. code-block:: bash
 
     git clone https://github.com/ayush9pandey/AutoReduce.git
     cd AutoReduce
-    pip install -e ".[all]"
+    pip install -e ".[dev]"
 
-This will install the package in development mode, allowing you to modify the code and see changes immediately.
+Use the feature extras explicitly when working on optional integrations:
+
+.. code-block:: bash
+
+    pip install -e ".[bio]"
+    pip install -e ".[control]"
+    pip install -e ".[dmd]"
 
 Verifying Installation
----------------------
+-----------------------
 
 To verify your installation, you can run Python and import the package:
 
@@ -59,13 +69,13 @@ To verify your installation, you can run Python and import the package:
 If you don't see any errors, the installation was successful.
 
 Troubleshooting
---------------
+---------------
 
 If you encounter any issues during installation:
 
-1. Make sure you have Python 3.9 or higher installed
+1. Make sure you have Python 3.9 through 3.12 installed
 2. Try creating a fresh virtual environment
-3. Check that all dependencies are properly installed
+3. Check that the extra for the feature you are using is installed
 4. If using conda, you might need to install some packages through conda instead of pip
 
 For more help, please open an issue on the `GitHub repository <https://github.com/ayush9pandey/AutoReduce/issues>`_.

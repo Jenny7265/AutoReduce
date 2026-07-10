@@ -1,7 +1,7 @@
 #  Copyright (c) 2020, Ayush Pandey. All rights reserved.
 #  See LICENSE file in the project root directory for details.
 
-from autoreduce.system import System
+from autoreduce.system.system import System
 
 
 def test_get_reduced_model(reducible_system_1):

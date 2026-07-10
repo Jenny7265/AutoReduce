@@ -1,78 +1,54 @@
-#  Copyright (c) 2020, Ayush Pandey. All rights reserved.
-#  See LICENSE file in the project root directory for details.
+# Copyright (c) 2020, Ayush Pandey. All rights reserved.
+# See LICENSE file in the project root directory for details.
 
-import warnings
-import pytest  # type: ignore
+import importlib
 
+import numpy as np
+import pytest
 
-@pytest.fixture
-def system_1_setup():
-    system1 = None
-    return system1
-
-
-@pytest.fixture
-def system_2_setup():
-    system2 = None
-    return system2
+import autoreduce
+from autoreduce.system.system import System
 
 
-def test_system_equality(system1=None, system2=None):
-    """
-    Test all properties of two systems for equality
-    """
-    if system1 is None and system2 is None:
-        return
-    elif system1 is None or system2 is None:
-        warnings.warn("One of the System objects is None.")
-    else:
-        test_states()
-        test_f()
-        test_g()
-        test_h()
-        test_params()
-        test_initial_conditions()
-        test_params_values()
-        test_C()
+def test_system_equality(system_1):
+    """Check that equivalent `System` objects compare equal."""
+    system_copy = System(
+        system_1.x,
+        system_1.f,
+        params=system_1.params,
+        x_init=system_1.x_init,
+        params_values=system_1.params_values,
+        C=system_1.C,
+        g=system_1.g,
+        h=system_1.h,
+        u=system_1.u,
+        input_values=system_1.input_values,
+    )
+    assert system_1 == system_copy
 
 
-def test_states(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.x == system2.x
+def test_system_attributes(system_1):
+    """Check that core symbolic system attributes are stored intact."""
+    assert len(system_1.x) == 4
+    assert len(system_1.f) == 4
+    assert len(system_1.params) == 3
+    assert system_1.params_values == [2, 4, 6]
+    assert np.array_equal(system_1.x_init, np.ones(4))
+    assert system_1.C is None
+    assert system_1.g is None
+    assert system_1.h is None
+    assert system_1.u is None
 
 
-def test_f(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.f == system2.f
+def test_old_import_paths_are_not_exported():
+    """Confirm the refactor does not preserve removed convenience imports."""
+    assert not hasattr(autoreduce, "System")
+    assert not hasattr(autoreduce, "load_ODE_model")
+    assert not hasattr(importlib.import_module("autoreduce.system"), "System")
+    assert not hasattr(importlib.import_module("autoreduce.utils"), "get_ODE")
 
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("autoreduce.ode")
 
-def test_g(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.g == system2.g
-
-
-def test_h(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.h == system2.h
-
-
-def test_params(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.params == system2.params
-
-
-def test_params_values(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        assert system1.params_values == system2.params_values
-
-
-def test_initial_conditions(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        if system1.x_init is not None and system2.x_init is not None:
-            assert system1.x_init == system2.x_init
-
-
-def test_C(system1=None, system2=None):
-    if system1 is not None and system2 is not None:
-        if system1.C is not None and system2.C is not None:
-            assert system1.C == system2.C
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("autoreduce.model_reduction")

@@ -1,39 +1,48 @@
 Examples
 ========
 
-This section contains examples of using AutoReduce for different types of model reduction tasks.
+This section contains examples of using AutoReduce for different model
+reduction tasks. Examples are organized by scientific domain.
 
 Michaelis-Menten Model Reduction
--------------------------------
+--------------------------------
 
 This example demonstrates how to reduce a simple Michaelis-Menten model using QSSA.
 
-.. nbgallery::
-   :caption: Michaelis-Menten Example
-   :name: michaelis-menten
+.. toctree::
+   :maxdepth: 1
 
-   ../examples/michaelis-menten example.ipynb
+   notebooks/michaelis_menten
 
-Gene Expression Analysis
------------------------
+Viral Spread
+------------
+
+This ecological example defines and solves a viral spread model using SIR
+dynamics.
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/sir_model_reduction
+
+Gene Expression
+---------------
 
 This example shows how to analyze and reduce gene expression models.
 
-.. nbgallery::
-   :caption: Gene Expression Analysis
-   :name: gene-expression
+.. toctree::
+   :maxdepth: 1
 
-   ../examples/gene expression analysis.ipynb
+   notebooks/gene_expression_analysis
 
 BioCRNPyler Integration
-----------------------
+-----------------------
 
 This example demonstrates how to use AutoReduce with BioCRNPyler for synthetic biology models.
 
-.. nbgallery::
-   :caption: BioCRNPyler Integration
-   :name: biocrnpyler
+.. toctree::
+   :maxdepth: 1
 
-   ../examples/AutoReduce-BioCRNpyler interface.ipynb
+   notebooks/biocrnpyler_interface
 
 Each example notebook contains detailed explanations and can be downloaded from the `GitHub repository <https://github.com/ayush9pandey/AutoReduce/tree/main/examples>`_.
