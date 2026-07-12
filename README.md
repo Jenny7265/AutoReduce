@@ -1,4 +1,4 @@
-# AutoReduce: An automated model reduction tool
+# AutoReduce: An Automated Model Reduction Toolbox
 
 Python toolbox to obtain reduced model expressions using time-scale
 separation, conservation laws, sensitivity analysis, and projection-based
@@ -12,45 +12,67 @@ interfaces to established reduction libraries.
 
 ## Overview
 
-AutoReduce is a Python package for automated model reduction of symbolic and
-SBML-derived dynamical systems. It provides tools for:
+AutoReduce is a Python package for automated model reduction of nonlinear
+dynamical systems. It provides tools for:
+
 - Automated model reduction using QSSA (Quasi-Steady State Approximation)
 - Conservation-law based reductions
 - Local sensitivity analysis
+- SBML import/export through python-libsbml
 - Integration with [BioCRNPyler](https://biocrnpyler.readthedocs.io/) for synthetic biology models
 - Optional python-control and PyDMD interfaces
 
-Refer to the [bioRxiv paper](https://www.biorxiv.org/content/10.1101/2020.02.15.950840v2.full.pdf) and [Journal of Robust and Nonlinear Control paper](https://onlinelibrary.wiley.com/doi/full/10.1002/rnc.6013) for more details.
+See the [bioRxiv paper](https://doi.org/10.1101/2020.02.15.950840)
+and [International Journal of Robust and Nonlinear Control paper](https://doi.org/10.1002/rnc.6013)
+for the model-reduction background.
 
 ## Quick Start
 
 ```python
-from autoreduce.utils.converters import load_sbml
+import numpy as np
+from sympy import Symbol
 
-# Load your SBML model
-sys = load_sbml('your_sbml_file.xml', outputs=['your_output'])
+from autoreduce.system.system import System
+from autoreduce.utils.reduction import get_reducible
 
-# Solve conservation laws
-conservation_laws = sys.solve_conservation_laws(
-    conserved_sets=[
-        ['species1', 'species2', 'species3'],  # First conserved set
-        ['species4', 'species5']               # Second conserved set
-    ],
-    states_to_eliminate=['species_to_eliminate1', 'species_to_eliminate2']
+S = Symbol("S")
+C = Symbol("C")
+P = Symbol("P")
+k1 = Symbol("k1")
+k2 = Symbol("k2")
+k3 = Symbol("k3")
+E_total = Symbol("E_total")
+
+E = E_total - C
+x = [S, C, P]
+f = [
+    -k1 * E * S + k2 * C,
+    k1 * E * S - (k2 + k3) * C,
+    k3 * C,
+]
+
+system = System(
+    x,
+    f,
+    params=[k1, k2, k3, E_total],
+    params_values=[1.0, 0.5, 0.25, 1.0],
+    x_init=[10.0, 0.0, 0.0],
+    C=np.array([[1, 0, 0], [0, 0, 1]]),
 )
 
-# Solve timescale separation using QSSA
-reduced_qssa_model = sys.solve_timescale_separation(
-    ['fast_species1', 'fast_species2']
-    )
+reducible_system = get_reducible(system)
+reduced_system, collapsed_system = reducible_system.solve_timescale_separation(
+    [S, P],
+    fast_states=[C],
+)
 ```
 
 For more examples, check out the [documentation](https://autoreduce.readthedocs.io/en/latest/examples.html).
 
 ## Installation
 
-AutoReduce currently supports Python 3.9 through 3.12 with NumPy < 2, which
-keeps it compatible with BioCRNpyler.
+Supported Python versions are 3.9 - 3.12. AutoReduce currently requires
+NumPy < 2 to keep compatibility with BioCRNpyler.
 
 Install the latest version of AutoReduce:
 

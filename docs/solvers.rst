@@ -4,7 +4,7 @@
 Solvers
 *******
 
-AutoReduce solvers live under `autoreduce.solvers`.
+AutoReduce provides numerical solvers in `autoreduce.solvers`.
 
 ODE Solver
 ==========

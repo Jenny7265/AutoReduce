@@ -30,7 +30,7 @@ Development Setup
 Code Style
 ----------
 
-We use ruff for linting and formatting. Configuration lives in
+We use ruff for linting and formatting. Configuration is defined in
 ``pyproject.toml``.
 
 .. code-block:: bash

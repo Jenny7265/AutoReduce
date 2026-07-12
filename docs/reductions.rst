@@ -4,7 +4,7 @@
 Reductions
 **********
 
-Reduction algorithms live under `autoreduce.reductions`.
+AutoReduce implements reduction algorithms in `autoreduce.reductions`.
 
 Time-Scale Separation
 =====================
@@ -15,15 +15,15 @@ time-scale separation workflows.
 Conservation Laws
 =================
 
-Conservation-law routines are exposed through
-`reductions.conservation.solve_conservation_laws` and the corresponding
-methods on `reductions.timescale.Reduce`.
+Conservation-law reduction can be applied with
+`reductions.conservation.solve_conservation_laws` or with
+`reductions.timescale.Reduce.solve_conservation_laws`.
 
 Projection Methods
 ==================
 
-Projection-based DMD and DMDc wrappers live in
-`autoreduce.reductions.projection.dmd` and require the `dmd` extra.
+Projection-based DMD and DMDc wrappers are implemented in
+`autoreduce.reductions.projection.dmd`. They require the `dmd` extra.
 
 .. code-block:: bash
 

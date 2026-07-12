@@ -1,8 +1,8 @@
 Examples
 ========
 
-This section contains examples of using AutoReduce for different model
-reduction tasks. Examples are organized by scientific domain.
+This section contains worked examples for different model reduction tasks.
+Examples are organized by scientific domain.
 
 Michaelis-Menten Model Reduction
 --------------------------------
@@ -44,5 +44,16 @@ This example demonstrates how to use AutoReduce with BioCRNPyler for synthetic b
    :maxdepth: 1
 
    notebooks/biocrnpyler_interface
+
+Parameter Sensitivity
+---------------------
+
+This canonical example computes local parameter sensitivities for a symbolic
+ODE model.
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/parameter_sensitivity
 
 Each example notebook contains detailed explanations and can be downloaded from the `GitHub repository <https://github.com/ayush9pandey/AutoReduce/tree/main/examples>`_.

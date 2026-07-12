@@ -26,8 +26,8 @@ Use `System` when model equations are already available as SymPy expressions.
 python-control Adapter
 ======================
 
-The python-control adapter lives in `autoreduce.system.control` and requires
-the `control` extra.
+The python-control adapter is implemented in `autoreduce.system.control` and
+requires the `control` extra.
 
 .. code-block:: bash
 

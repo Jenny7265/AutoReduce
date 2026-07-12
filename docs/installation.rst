@@ -4,14 +4,21 @@ Installation
 Requirements
 ------------
 
-AutoReduce requires Python 3.9 through 3.12 and the following dependencies:
+Supported Python versions are: 3.9 - 3.12.
+
+The package installer automatically installs the required runtime
+dependencies. Users do not need to install these packages manually unless they
+are setting up a development environment or pinning a controlled environment
+for reproducible research.
+
+Required runtime dependencies:
 
 * python-libsbml
 * sympy
 * scipy
 * numpy<2
 
-Optional dependencies (for visualization and advanced features):
+Optional compatibility and visualization dependencies:
 
 * matplotlib
 * seaborn
@@ -27,6 +34,12 @@ You can install AutoReduce using pip:
 .. code-block:: bash
 
     pip install autoreduce
+
+To install AutoReduce with all optional compatibility packages, use:
+
+.. code-block:: bash
+
+    pip install "autoreduce[all]"
 
 Or install from source:
 
@@ -52,6 +65,7 @@ Use the feature extras explicitly when working on optional integrations:
 
 .. code-block:: bash
 
+    pip install -e ".[all]"
     pip install -e ".[bio]"
     pip install -e ".[control]"
     pip install -e ".[dmd]"
@@ -67,15 +81,3 @@ To verify your installation, you can run Python and import the package:
     print(autoreduce.__version__)
 
 If you don't see any errors, the installation was successful.
-
-Troubleshooting
----------------
-
-If you encounter any issues during installation:
-
-1. Make sure you have Python 3.9 through 3.12 installed
-2. Try creating a fresh virtual environment
-3. Check that the extra for the feature you are using is installed
-4. If using conda, you might need to install some packages through conda instead of pip
-
-For more help, please open an issue on the `GitHub repository <https://github.com/ayush9pandey/AutoReduce/issues>`_.
