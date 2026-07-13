@@ -2,40 +2,46 @@
 AutoReduce: An Automated Model Reduction Toolbox
 ########################################################
 
-AutoReduce is a Python package for constructing reduced-order models of
-nonlinear dynamical systems. It is designed for scientific workflows where
-the reduced model should remain interpretable: users provide symbolic system
+AutoReduce is a tool for obtaining reduced-order models of
+nonlinear dynamical systems using symbolic computation in Python.
+It is designed for workflows where the reduced model should remain
+interpretable. That is, users provide symbolic system
 equations, select states or constraints that define the reduction problem,
 and obtain reduced dynamics that can be inspected, simulated, and exported.
 
-The package supports model reduction by time-scale separation, conservation
-laws, abundance assumptions, local sensitivity analysis, and projection-based
-interfaces to established model-reduction libraries. AutoReduce is not tied to
-one model source: models can be written directly as SymPy expressions or
-imported through supported compatibility layers.
+More specifically, the package supports model reduction by
+time-scale separation, conservation laws, abundance assumptions,
+local sensitivity analysis, and (coming soon!) projection-based methods.
+Models can be imported in multiple formats:
+`SymPy <https://www.sympy.org/>`_,
+`SBML <http://sbml.org/>`_,
+`BioCRNpyler <https://github.com/buildacell/biocrnpyler>`_,
+`python-control's NonlinearIOSystem <https://python-control.readthedocs.io/>`_,
+and PyDMD. The reduced models are returned as symbolic dynamics that
+can be exported through supported compatibility routes.
 
-.. rubric:: Core capabilities
+.. rubric:: Main features
 
-- Symbolic representation of nonlinear ordinary differential equation models.
-- Numerical simulation of full and reduced systems.
 - Quasi-steady-state approximation (QSSA) through time-scale separation.
+- Numerical simulation of full and reduced systems.
+- Quantification of error between full and reduced models.
 - Conservation-law reduction for systems with invariant total quantities.
-- Local sensitivity analysis for parameter-dependent systems.
-- Projection-based DMD and DMDc workflows through PyDMD.
+- Local sensitivity analysis for parameter-dependent systems to
+  rank (and choose) parameter effects.
+- Robustness computation for reduced models that are closest to the full model
+  even under perturbations of the parameters.
 
 .. rubric:: Background
 
-AutoReduce was introduced for automated construction of phenomenological
-models from more detailed biological circuit descriptions. The original
-workflow combines time-scale separation, conservation laws, and species
-abundance assumptions to produce smaller models that retain the input-output
-relationships needed for design analysis [PandeyMurray2020]_.
+AutoReduce was originally developed for automated construction of
+phenomenological models from more detailed biological circuit descriptions.
+The original workflow combines time-scale separation, conservation laws, and
+species abundance assumptions to produce smaller models that retain
+the input-output relationships needed for design analysis [PandeyMurray2020]_.
 
 The robustness tools in AutoReduce are connected to structured model
 reduction guarantees for dynamical systems, with biomolecular examples
-developed in [PandeyMurray2023]_. Projection-based workflows use PyDMD
-[Demo2018]_, and the python-control adapter supports interoperability with
-the python-control systems library [Fuller2021]_.
+developed in [PandeyMurray2023]_.
 
 Compatibility notes:
 
@@ -43,11 +49,13 @@ Compatibility notes:
 - SciPy is used for numerical ODE simulation.
 - python-libsbml supports SBML import and export.
 - BioCRNpyler models can be used through SBML-based workflows.
-- python-control `NonlinearIOSystem` models are supported by the
-  ``control`` extra.
+- python-control `NonlinearIOSystem` models are supported for model imports.
 - PyDMD-based DMD and DMDc reductions are supported by the ``dmd`` extra.
 
 .. rubric:: Related research
+
+The optional PyDMD and python-control integrations build on [Demo2018]_ and
+[Fuller2021]_, respectively.
 
 .. [PandeyMurray2020] Ayush Pandey and Richard M. Murray. "Model Reduction
    Tools For Phenomenological Modeling of Input-Controlled Biological

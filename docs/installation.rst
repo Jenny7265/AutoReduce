@@ -6,12 +6,8 @@ Requirements
 
 Supported Python versions are: 3.9 - 3.12.
 
-The package installer automatically installs the required runtime
-dependencies. Users do not need to install these packages manually unless they
-are setting up a development environment or pinning a controlled environment
-for reproducible research.
-
-Required runtime dependencies:
+Required runtime dependencies are listed below
+but will be automatically installed with pip when you install the package:
 
 * python-libsbml
 * sympy
